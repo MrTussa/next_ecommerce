@@ -3,10 +3,22 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 const images = [
-  { id: 1, url: "https://www.pexels.com/ru-ru/photo/28462495/" },
-  { id: 2, url: "https://www.pexels.com/ru-ru/photo/27576233/" },
-  { id: 3, url: "https://www.pexels.com/ru-ru/photo/18998608/" },
-  { id: 4, url: "https://www.pexels.com/ru-ru/photo/28501949/" },
+  {
+    id: 1,
+    url: "https://images.pexels.com/photos/18998608/pexels-photo-18998608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  },
+  {
+    id: 2,
+    url: "https://images.pexels.com/photos/18998608/pexels-photo-18998608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  },
+  {
+    id: 3,
+    url: "https://images.pexels.com/photos/18998608/pexels-photo-18998608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  },
+  {
+    id: 4,
+    url: "https://images.pexels.com/photos/18998608/pexels-photo-18998608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  },
 ];
 
 const ProductImages = () => {

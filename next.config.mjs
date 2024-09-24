@@ -4,8 +4,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "www.pexels.com",
+        port: "",
+        pathname: "/ru-ru/photo/**",
+      },
+      {
+        protocol: "https",
         hostname: "images.pexels.com",
-        // TODO: Подключить бек
+        port: "",
+        pathname: "/photos/**",
       },
     ],
   },
