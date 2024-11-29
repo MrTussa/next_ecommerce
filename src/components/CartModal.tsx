@@ -9,7 +9,6 @@ const CartModal = () => {
   const { cart, isLoading, removeItem } = useCartStore();
 
   const wixClient = useWixClient();
-  console.log(cart.lineItems);
 
   return (
     <div className=" w-max absolute p-4 rounded-md shadow-card bg-white top-12 right-0 flex flex-col gap-6 z-20">

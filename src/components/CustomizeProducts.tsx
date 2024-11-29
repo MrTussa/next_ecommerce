@@ -17,7 +17,6 @@ const CustomizeProducts = ({
   }>({});
 
   const [selectedVariant, setSelectedVariant] = useState<products.Variant>();
-  console.log(selectedVariant);
 
   useEffect(() => {
     const variant = variants.find((v) => {
