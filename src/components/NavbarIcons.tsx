@@ -3,23 +3,44 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CartModal from "./CartModal";
+import { useWixClient } from "@/hooks/useWixClient";
+import Cookies from "js-cookie";
+import useCartStore from "@/hooks/useCartStore";
 
 const NavbarIcons = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  //   TODO:Delete after creating server
-  const isLoggedIt = false;
+  const wixClient = useWixClient();
+
+  const isLoggedIn = wixClient.auth.loggedIn();
 
   const router = useRouter();
 
   const handleProfile = () => {
-    if (!isLoggedIt) {
+    if (!isLoggedIn) {
       router.push("/login");
+    } else {
+      setIsProfileOpen((prev) => !prev);
     }
-    setIsProfileOpen((prev) => !prev);
+  };
+
+  const { counter, getCart } = useCartStore();
+
+  useEffect(() => {
+    getCart(wixClient);
+  }, [wixClient, getCart]);
+
+  const handleLogout = async () => {
+    setIsLoading(true);
+    Cookies.remove("refreshToken");
+    const { logoutUrl } = await wixClient.auth.logout(window.location.href);
+    setIsLoading(false);
+    setIsProfileOpen(false);
+    router.push(logoutUrl);
   };
   return (
     <div className="flex items-center gap-4 xl:gap-6 relative">
@@ -32,9 +53,11 @@ const NavbarIcons = () => {
         onClick={handleProfile}
       />
       {isProfileOpen && (
-        <div className="absolute p-4 rounded-md top-12 l-0 text-sm z-20 shadow-card">
+        <div className="absolute p-4 rounded-md top-12 l-0 bg-white text-sm z-20 shadow-card">
           <Link href="/">Profile</Link>
-          <div className="mt-2 cursor-pointer">Logout</div>
+          <div className="mt-2 cursor-pointer" onClick={handleLogout}>
+            {isLoading ? "Loading" : "Logout"}
+          </div>
         </div>
       )}
       <Image
@@ -44,16 +67,13 @@ const NavbarIcons = () => {
         height={22}
         className="cursor-pointer"
       />
-      <div className="relative cursor-pointer">
-        <Image
-          src="/cart.png"
-          alt="cart"
-          width={22}
-          height={22}
-          onClick={() => setIsCartOpen((prev) => !prev)}
-        />
+      <div
+        className="relative cursor-pointer"
+        onClick={() => setIsCartOpen((prev) => !prev)}
+      >
+        <Image src="/cart.png" alt="cart" width={22} height={22} />
         <div className="absolute -top-4 -right-4 w-6 g-6 bg-pink rounded-full text-white flex text-sm items-center justify-center">
-          1
+          {counter}
         </div>
       </div>
       {isCartOpen && <CartModal />}
